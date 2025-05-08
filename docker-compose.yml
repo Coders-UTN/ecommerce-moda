@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    container_name: ecommerce-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - ecommerce-network
+    volumes:
+      - ./public:/app/public
+      - ./js:/app/js
+      - ./css:/app/css
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=ecommerce_db
+
+  db:
+    image: mysql:8
+    container_name: ecommerce-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ecommerce_db
+    ports:
+      - "3306:3306"
+    networks:
+      - ecommerce-network
+    volumes:
+      - db-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-container
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
