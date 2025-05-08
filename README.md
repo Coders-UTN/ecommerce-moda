@@ -93,7 +93,3 @@ coderShop/
 * **public/**: Archivos estáticos (HTML, CSS, JavaScript) que el servidor sirve a los clientes.
 * **Dockerfile**: Define la imagen para el contenedor de la aplicación.
 * **docker-compose.yml**: Configura los contenedores de la aplicación y la base de datos.
-
----
-
-¡Con estas instrucciones en tu README, cualquier persona debería poder levantar tu proyecto sin problemas!
