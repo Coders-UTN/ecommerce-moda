@@ -77,8 +77,6 @@ coderShop/
 ├── backend/
 │   ├── controllers/
 │   ├── db/
-│   ├── models/
-│   ├── routes/
 │   └── server.js
 ├── public/
 │   ├── css/
