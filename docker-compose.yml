@@ -1,11 +1,12 @@
 services:
   app:
     build: .
+    depends_on:
+      db:
+        condition: service_healthy
     container_name: ecommerce-app
     ports:
       - "3000:3000"
-    depends_on:
-      - db
     networks:
       - ecommerce-network
     volumes:
@@ -17,9 +18,11 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=root
       - MYSQL_DATABASE=ecommerce_db
+    
 
   db:
     image: mysql:8
+    restart: always
     container_name: ecommerce-db
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -31,6 +34,11 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 
   phpmyadmin:
