@@ -34,7 +34,6 @@ Esto descargará las imágenes necesarias, creará los contenedores y levantará
 
 Atencion: Usualmente falla la conexion a la base de datos al levantar el contenedor la primera vez,
 para esto detener el contenedor 
- control+c o docker compose stop y 
  ```bash
  Control+C
  o
