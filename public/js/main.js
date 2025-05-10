@@ -1,21 +1,21 @@
 // js/main.js
 
 const contenedorProductos = document.querySelector("#contenedor-productos");
-const botonesCategoria   = document.querySelectorAll(".boton-categoria");
-const tituloPrincipal    = document.querySelector("#titulo-principal");
-let botonesAgregar       = [];
-let productosEnCarrito   = JSON.parse(localStorage.getItem("carrito")) || [];
+const tituloPrincipal = document.querySelector("#titulo-principal");
+let botonesAgregar = [];
+let productosEnCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-// Actualiza badge
-function actualizarContador() {
-  const total = productosEnCarrito.reduce((sum, p) => sum + p.cantidad, 0);
-  document.querySelectorAll(".numerito").forEach(el => el.textContent = total);
+function actualizarCantidad() {
+  const totalProductos = document.getElementById('numerito');
+  const totalCantidad = productosEnCarrito.reduce((sum, p) => sum + p.cantidad, 0);
+  totalProductos.textContent = totalCantidad;
 }
+
 
 // Guarda en localStorage y actualiza badge
 function guardarCarrito() {
   localStorage.setItem("carrito", JSON.stringify(productosEnCarrito));
-  actualizarContador();
+  actualizarCantidad();
 }
 
 // Agrega o incrementa
@@ -36,20 +36,31 @@ function actualizacionBotonesAgregar() {
   botonesAgregar.forEach(btn => btn.addEventListener("click", agregarAlCarrito));
 }
 
+let productos = [];
 // Render de productos
+function fetchProductos() {
+  fetch('/productos')
+    .then(res => res.json())
+    .then(data => {
+      productos = data;
+      cargarProductos(productos);
+    })
+}
+
 function cargarProductos(lista) {
+
   contenedorProductos.innerHTML = "";
-  lista.forEach(p => {
+  lista.forEach(item => {
     const div = document.createElement("div");
     div.className = "producto";
     div.innerHTML = `
-      <img class="producto-imagen" src="${p.imagen}" alt="${p.titulo}">
+      <img class="producto-imagen" src="${item.imagen}" alt="${item.titulo}">
       <div class="producto-detalles">
-        <a href="/pages/producto.html?id=${p.id}">
-          <h3 class="producto-tituloi">${p.titulo}</h3>
+        <a href="/pages/producto.html?id=${item.id}">
+          <h3 class="producto-titulo">${item.titulo}</h3>
         </a>
-        <p class="producto-precio">$${p.precio}</p>
-        <button class="producto-agregar" id="${p.id}">Agregar</button>
+        <p class="producto-precio">$${item.precio}</p>
+        <button class="producto-agregar" id="${item.id}">Agregar</button>
       </div>
     `;
     contenedorProductos.append(div);
@@ -58,23 +69,33 @@ function cargarProductos(lista) {
 }
 
 // Filtro por categoría
-botonesCategoria.forEach(boton => {
-  boton.addEventListener("click", e => {
-    botonesCategoria.forEach(b => b.classList.remove("active"));
-    e.currentTarget.classList.add("active");
-    if (e.currentTarget.id !== "todos") {
-      const fil = productos.filter(p => p.categoria.id === e.currentTarget.id);
-      tituloPrincipal.innerText = fil[0]?.categoria.nombre || "Productos";
-      cargarProductos(fil);
-    } else {
-      tituloPrincipal.innerText = "Todos los productos";
-      cargarProductos(productos);
-    }
+function funcionBotonesCategoria() {
+  const botonesCategoria = document.querySelectorAll(".boton-categoria");
+  botonesCategoria.forEach(boton => {
+    boton.addEventListener("click", e => {
+      botonesCategoria.forEach(b => b.classList.remove("active"));
+      e.currentTarget.classList.add("active");
+      const categoriaId = e.currentTarget.id;
+      console.log("ID de categoría clickeado:", categoriaId);
+      if (categoriaId !== "todos") {
+        const fil = productos.filter(p => {
+          console.log("ID de categoría del producto (p.categoria_id):", p.categoria_id); // <-- COLOCA EL console.log AQUÍ
+          console.log(p.categoria_id === categoriaId)
+          return p.categoria_id == categoriaId;
+        });
+        tituloPrincipal.innerText = e.currentTarget.innerText || "Productos";
+        cargarProductos(fil);
+      } else {
+        tituloPrincipal.innerText = "Todos los productos";
+        cargarProductos(productos);
+      }
+    });
   });
-});
+}
+
 
 // Al cargar la página
 document.addEventListener("DOMContentLoaded", () => {
-  cargarProductos(productos);
-  actualizarContador();
+  fetchProductos();
+  funcionBotonesCategoria();
 });

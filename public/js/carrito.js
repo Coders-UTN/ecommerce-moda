@@ -8,6 +8,15 @@ const accionesCarrito     = document.querySelector(".carrito-acciones");
 const btnVaciar           = document.querySelector(".carrito-acciones-vaciar");
 const btnComprar          = document.querySelector(".carrito-acciones-comprar");
 const totalDisplay        = document.getElementById("total");
+const totalProductos = document.getElementById("total-productos");
+
+function actualizarTotal() {
+  const total = productosEnCarrito.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
+  const totalCantidad = productosEnCarrito.reduce((sum, p) => sum + p.cantidad, 0);
+  totalProductos.textContent = totalCantidad;
+  totalDisplay.textContent = `$${total}`;
+
+}
 
 function guardarCarrito() {
   localStorage.setItem("carrito", JSON.stringify(productosEnCarrito));
@@ -57,10 +66,10 @@ function renderCarrito() {
       guardarCarrito();
     });
   });
-
-  const total = productosEnCarrito.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
-  totalDisplay.textContent = `$${total}`;
+  actualizarTotal();
 }
+
+
 
 btnVaciar.addEventListener("click", () => {
   productosEnCarrito = [];
@@ -74,3 +83,4 @@ btnComprar.addEventListener("click", () => {
 });
 
 document.addEventListener("DOMContentLoaded", renderCarrito);
+actualizarTotal();

@@ -12,22 +12,7 @@
     <aside>
       <header><h1 class="logo">CoderShop</h1></header>
       <nav>
-        <ul class="menu">
-          <li><button id="todos" class="boton-menu boton-categoria active">
-            <i class="bi bi-hand-index-thumb-fill"></i> Todos los productos
-          </button></li>
-          <li><button id="Busos" class="boton-menu boton-categoria">
-            <i class="bi bi-hand-index-thumb"></i> Abrigos
-          </button></li>
-          <li><button id="Remeras" class="boton-menu boton-categoria">
-            <i class="bi bi-hand-index-thumb"></i> Remeras
-          </button></li>
-          <li><button id="Pantalones" class="boton-menu boton-categoria">
-            <i class="bi bi-hand-index-thumb"></i> Pantalones
-          </button></li>
-          <li><a class="boton-menu boton-carrito" href="/pages/carrito.html">
-            <i class="bi bi-cart-fill"></i> Carrito <samp class="numerito">0</samp>
-          </a></li>
+        <ul class="menu" id="lista-categorias">
         </ul>
       </nav>
       <footer><p class="texto-footer">© 2023 CoderShop</p></footer>
@@ -36,12 +21,11 @@
     <main>
       <h2 class="titulo-principal" id="titulo-principal">Todos los productos</h2>
       <div id="contenedor-productos" class="contenedor-productos"></div>
-      <button type="button" class="btn btn-primary">Nuevo boton</button>
 
     </main>
   </div>
 
-  <script src="js/productos.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/data-controller.js"></script>
 </body>
 </html>

@@ -19,7 +19,7 @@ CREATE TABLE productos (
 
 -- Insertar categorías
 INSERT INTO categorias (nombre) VALUES 
-  ('Abrigos'),
+  ('Buzos'),
   ('Camperas'),
   ('Pantalones'),
   ('Remeras');
@@ -27,10 +27,10 @@ INSERT INTO categorias (nombre) VALUES
 -- Insertar productos
 INSERT INTO productos (id, titulo, imagen, precio, descripcion, categoria_id) VALUES
 -- Abrigos
-('abrigo-01', 'Buzo negro con tigre', '/img/busos/buzo01.jpg', 5000, 'Buzo comodo con estampado de tigre.', 1),
-('abrigo-02', 'Campera azul Adidas', '/img/busos/buzo02.jpg', 10000, 'Campera deportiva con diseno clasico Adidas.', 1),
-('abrigo-03', 'Buzo negro Adidas', '/img/busos/buzo03.jpg', 10000, 'Buzo negro con logo Adidas.', 1),
-('abrigo-04', 'Buzo blanco New York City', '/img/busos/buzo04.jpg', 8000, 'Buzo blanco con diseno urbano.', 1),
+('buzo-01', 'Buzo negro con tigre', '/img/buzos/buzo01.jpg', 5000, 'Buzo comodo con estampado de tigre.', 1),
+('campera-01', 'Campera azul Adidas', '/img/camperas/campera01.jpg', 10000, 'Campera deportiva con diseno clasico Adidas.', 2),
+('buzo-02', 'Buzo negro Adidas', '/img/buzos/buzo02.jpg', 10000, 'Buzo negro con logo Adidas.', 1),
+('buzo-03', 'Buzo blanco New York City', '/img/buzos/buzo03.jpg', 8000, 'Buzo blanco con diseno urbano.', 1),
 
 -- Pantalones
 ('pantalon-01', 'Pantalón negro', '/img/pantalones/pantalon01.jpg', 12000, 'Pantalon clasico color negro.', 3),
