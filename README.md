@@ -30,7 +30,7 @@ docker-compose up --build
 ```
 
 Esto descargará las imágenes necesarias, creará los contenedores y levantará el servidor.
-
+dockr
 ### 3. Acceder al proyecto
 
 * La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
