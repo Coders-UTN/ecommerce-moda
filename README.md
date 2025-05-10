@@ -26,11 +26,25 @@ cd ecommerce-moda
 Para crear los contenedores y levantar el proyecto en Docker, ejecuta:
 
 ```bash
-docker-compose up --build
+docker compose build
+docker compose up
 ```
 
 Esto descargará las imágenes necesarias, creará los contenedores y levantará el servidor.
-dockr
+
+Atencion: Usualmente falla la conexion a la base de datos al levantar el contenedor la primera vez,
+para esto detener el contenedor 
+ control+c o docker compose stop y 
+ ```bash
+ Control+C
+ o
+ docker compose stop
+```
+ Volver a ejecutar
+```bash
+docker compose up
+```
+
 ### 3. Acceder al proyecto
 
 * La aplicación estará disponible en [http://localhost:3000](http://localhost:3000).
