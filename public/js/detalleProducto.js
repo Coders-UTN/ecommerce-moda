@@ -33,14 +33,23 @@ fetch('/productos')
     if (producto) {
       contenedor.innerHTML =
        `
-      <div class="bg-body-secondary p-4 rounded shadow-sm">
+    <div class="bg-body-secondary p-4 rounded shadow-sm">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <img src="${producto.imagen}" class="img-fluid rounded" style="max-width: 100%;">
+        </div>
+        <div class="col-md-4">
           <h1>${producto.titulo}</h1>
-          <img src="${producto.imagen}" class="img-fluid rounded" style="max-width: 300px;">
           <p class="fs-3 text-primary mt-3">Precio: $${producto.precio}</p>
-          <button id="detalle-agregar" class="btn btn-primary btn-lg mt-3">
+          <p class="fs-4 text-success">Pagá hasta en 3 cuotas de $${(producto.precio/3).toFixed(2)}</p>
+          <p class="fs-5 mt-3 text-black text-start"><u>Detalle</u></p>
+          <p class="font-weight-normal mt-3 text-black text-start">${producto.descripcion}</p>
+          <button id="detalle-agregar" class="btn btn-primary btn-lg mt-5">
             Agregar al carrito
           </button>
-          </div>
+        </div>
+      </div>
+    </div>
         `;
       document.getElementById("detalle-agregar").addEventListener("click", agregarDesdeDetalle);
     } else {
