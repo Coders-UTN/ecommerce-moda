@@ -15,6 +15,7 @@ CREATE TABLE producto (
   precio INT NOT NULL,
   descripcion TEXT,
   id_categoria INT,
+  stock INTEGER,
   FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
 );
 -- Tabla de clientes
