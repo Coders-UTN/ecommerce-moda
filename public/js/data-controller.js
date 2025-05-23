@@ -19,7 +19,7 @@ function cargarCategorias() {
     data.forEach(item => {
     const elemento = document.createElement("li")
     const nombre = item.nombre
-    const id = item.id
+    const id = item.id_categoria
     elemento.innerHTML = `
     <button id="${id}" class="boton-menu boton-categoria">
               <i class="bi bi-hand-index-thumb"></i>${nombre}

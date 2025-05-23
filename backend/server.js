@@ -42,14 +42,14 @@ function conectarDB(reintentos = 5) {
 
 function iniciarServidor(connection) {
   app.get('/productos', (req, res) => {
-    connection.query('SELECT * FROM productos', (err, results) => {
+    connection.query('SELECT * FROM producto', (err, results) => {
       if (err) return res.status(500).send('Error al obtener productos');
       res.json(results);
     });
   });
 
   app.get('/categorias', (req, res) => {
-    connection.query('SELECT * FROM categorias', (err, results) => {
+    connection.query('SELECT * FROM categoria', (err, results) => {
       if (err) return res.status(500).send('Error al obtener categorías');
       res.json(results);
     });

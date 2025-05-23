@@ -20,8 +20,8 @@ function guardarCarrito() {
 // Agrega o incrementa
 function agregarAlCarrito(e) {
   const id = e.currentTarget.id;
-  const prod = productos.find((p) => p.id === id);
-  const existente = productosEnCarrito.find((p) => p.id === id);
+  const prod = productos.find((p) => p.slug === id);
+  const existente = productosEnCarrito.find((p) => p.slug === id);
 
   if (existente) existente.cantidad++;
   else productosEnCarrito.push({ ...prod, cantidad: 1 });
@@ -54,13 +54,13 @@ function cargarProductos(lista) {
     const div = document.createElement("div");
     div.className = "producto";
     div.innerHTML = `
-    <a href="/pages/producto.html?id=${item.id}">  
+    <a href="/pages/producto.html?id=${item.slug}">  
       <img class="producto-imagen" onerror="this.onerror=null; this.src='img/404.png';" src="${item.imagen}" alt="${item.titulo}">
       <div class="producto-detalles">
         <h3 class="producto-titulo">${item.titulo}</h3>
         <p class="producto-precio">$${item.precio}</p>
       </a>
-        <button class="producto-agregar" id="${item.id}">Agregar</button>
+        <button class="producto-agregar" id="${item.slug}">Agregar</button>
       </div>
     `;
     contenedorProductos.append(div);
@@ -78,7 +78,7 @@ function funcionBotonesCategoria() {
       const categoriaId = e.currentTarget.id;
       if (categoriaId !== "todos") {
         const fil = productos.filter((p) => {
-          return p.categoria_id == categoriaId;
+          return p.id_categoria == categoriaId;
         });
         tituloPrincipal.innerText = e.currentTarget.innerText || "Productos";
         cargarProductos(fil);

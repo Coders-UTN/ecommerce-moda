@@ -1,31 +1,67 @@
 USE ecommerce_db;
 
 -- Tabla de categorías
-CREATE TABLE IF NOT EXISTS categorias (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS categoria (
+  id_categoria INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- Tabla de productos
-CREATE TABLE productos (
-  id VARCHAR(50) PRIMARY KEY,
+CREATE TABLE producto (
+  id_producto INTEGER PRIMARY KEY AUTO_INCREMENT,
+  slug VARCHAR(100),
   titulo VARCHAR(100) NOT NULL,
   imagen VARCHAR(255) NOT NULL,
   precio INT NOT NULL,
   descripcion TEXT,
-  categoria_id INT,
-  FOREIGN KEY (categoria_id) REFERENCES categorias(id)
+  id_categoria INT,
+  FOREIGN KEY (id_categoria) REFERENCES categoria(id_categoria)
+);
+-- Tabla de clientes
+CREATE TABLE cliente (
+  id_cliente INTEGER PRIMARY KEY AUTO_INCREMENT,
+  dni VARCHAR(50) NOT NULL,
+  apellido VARCHAR(100) NOT NULL,
+  nombre VARCHAR(255) NOT NULL,
+  direccion VARCHAR(255),
+  email VARCHAR(255),
+  telefono VARCHAR(255)
+);
+
+CREATE TABLE compra (
+  id_compra INTEGER PRIMARY KEY AUTO_INCREMENT,
+  id_cliente INTEGER,
+  fecha DATETIME,
+  FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
+);
+
+CREATE TABLE detalle_compra (
+  id_compra INTEGER,
+  id_producto INTEGER,
+  cantidad INTEGER,
+  precio_unitario DECIMAL,
+  FOREIGN KEY (id_compra) REFERENCES compra(id_compra),
+  FOREIGN KEY (id_producto) REFERENCES producto(id_producto),
+  PRIMARY KEY (id_compra, id_producto)
+);
+
+CREATE TABLE usuario (
+  id_usuario INTEGER PRIMARY key AUTO_INCREMENT,
+  id_cliente INTEGER,
+  username VARCHAR(255),
+  hashpass VARCHAR(255),
+  FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 
 -- Insertar categorías
-INSERT INTO categorias (nombre) VALUES 
+INSERT INTO categoria (nombre) VALUES 
   ('Buzos'),
   ('Camperas'),
   ('Pantalones'),
   ('Remeras');
 
 -- Insertar productos
-INSERT INTO productos (id, titulo, imagen, precio, descripcion, categoria_id) VALUES
+INSERT INTO producto (slug, titulo, imagen, precio, descripcion, id_categoria) VALUES
 -- Abrigos
 ('buzo-01', 'Buzo negro con tigre', '/img/buzos/buzo01.jpg', 5000, 'Buzo comodo con estampado de tigre.', 1),
 ('campera-01', 'Campera azul Adidas', '/img/camperas/campera01.jpg', 10000, 'Campera deportiva con diseno clasico Adidas.', 2),

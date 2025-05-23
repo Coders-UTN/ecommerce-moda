@@ -14,7 +14,7 @@ function guardarCarrito() {
 
 function agregarDesdeDetalle() {
   // Asegúrate de que 'producto' esté definido aquí (dentro del scope donde 'productos' ya se cargó)
-  const existe = productosEnCarrito.find(p => p.id === producto.id);
+  const existe = productosEnCarrito.find(p => p.slug === producto.slug);
   if (existe) existe.cantidad++;
   else productosEnCarrito.push({ ...producto, cantidad: 1 });
 
@@ -28,7 +28,7 @@ fetch('/productos')
     productos = data;
     console.log("Productos cargados:", productos);
 
-    const producto = productos.find(p => p.id === idProducto);
+    const producto = productos.find(p => p.slug === idProducto);
 
     if (producto) {
       contenedor.innerHTML =

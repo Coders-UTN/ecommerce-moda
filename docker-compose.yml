@@ -10,9 +10,9 @@ services:
     networks:
       - ecommerce-network
     volumes:
-      - ./public:/app/public
-      - ./js:/app/js
-      - ./css:/app/css
+        - .:/app
+        - /app/node_modules
+        
     environment:
       - MYSQL_HOST=db
       - MYSQL_USER=root

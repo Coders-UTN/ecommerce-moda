@@ -52,20 +52,31 @@ function renderCarrito() {
       <div class="carrito-producto-subtotal">
         <small>Subtotal</small><p>$${item.precio * item.cantidad}</p>
       </div>
-      <button class="carrito-producto-eliminar" data-id="${item.id}">
+      <button class="carrito-producto-eliminar" data-id="${item.slug}">
         <i class="bi bi-trash-fill"></i>
       </button>
     `;
     contenedorProductos.append(div);
   });
 
-  document.querySelectorAll(".carrito-producto-eliminar").forEach(btn => {
+document.querySelectorAll(".carrito-producto-eliminar").forEach(btn => {
     btn.addEventListener("click", e => {
       const id = e.currentTarget.dataset.id;
-      productosEnCarrito = productosEnCarrito.filter(p => p.id !== id);
-      guardarCarrito();
+      const producto = productosEnCarrito.find(p => p.slug === id);
+
+      if (producto) {
+        if (producto.cantidad > 1) {
+          producto.cantidad--;
+        } else {
+          productosEnCarrito = productosEnCarrito.filter(p => p.slug !== id);
+        }
+
+        guardarCarrito();
+        renderCarrito(); // importante: volver a renderizar para actualizar vista
+      }
     });
   });
+
   actualizarTotal();
 }
 
@@ -84,3 +95,7 @@ btnComprar.addEventListener("click", () => {
 
 document.addEventListener("DOMContentLoaded", renderCarrito);
 actualizarTotal();
+
+function procesarCompra() {
+  
+}
