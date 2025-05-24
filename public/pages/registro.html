@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuario – CoderShop</title>
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+    <link rel="icon" href="../favicon.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="wrappel">
+        <aside>
+            <header><a href="/">
+                    <h1 class="logo">CoderShop</h1>
+            </header></a>
+            <nav>
+                <ul>
+                    <li>
+                        <a class="boton-menu boton-volver" href="/">
+                            <i class="bi bi-arrow-return-left"></i> Volver al inicio
+                        </a>
+                    </li>
+                    <li>
+                        <a class="boton-menu" href="carrito.html">
+                            <i class="bi bi-cart-fill"></i> Carrito
+                        </a>
+                    </li>
+                    <li>
+                        <p class="boton-menu active">
+                            <i class="bi bi-person-fill"></i> Registrar Usuario
+                        </p>
+                    </li>
+                </ul>
+            </nav>
+            <footer>
+                <p class="texto-footer">© 2023 CoderShop</p>
+            </footer>
+        </aside>
+
+<main class="container-fluid">
+      <h2 class="titulo-principal text-center my-4">Registro de Usuario</h2>
+      <div class="contenedor-formulario">
+        <div class="form-registro-card">
+          <p class="text-center mb-4 lead">Crea tu cuenta en CoderShop</p>
+
+          <form id="formRegistroUsuario">
+            <div class="row justify-content-center">
+
+                <div class="mb-3 col-12 col-md-5"> <label for="usuario" class="form-label text-center">Usuario:</label>
+                  <input type="text" class="form-control" id="usuario" name="usuario" required aria-describedby="usuarioHelp">
+                  <div id="usuarioHelp" class="form-text text-center">Elige un nombre de usuario único.</div>
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <label for="password" class="form-label text-center">Contraseña:</label>
+                  <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <label for="dni" class="form-label text-center">DNI:</label>
+                  <input type="text" class="form-control" id="dni" name="dni" required pattern="[0-9]{7,9}" title="Ingrese un DNI válido (solo números, 7 a 9 dígitos)">
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <label for="nombre" class="form-label text-center">Nombre:</label>
+                  <input type="text" class="form-control" id="nombre" name="nombre" required>
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <label for="apellido" class="form-label text-center">Apellido:</label>
+                  <input type="text" class="form-control" id="apellido" name="apellido" required>
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <label for="direccion" class="form-label text-center">Dirección:</label>
+                  <input type="text" class="form-control" id="direccion" name="direccion" required>
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <label for="email" class="form-label text-center">Email:</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <label for="telefono" class="form-label text-center">Teléfono (opcional):</label>
+                  <input type="tel" class="form-control" id="telefono" name="telefono">
+                </div>
+
+                <div class="mb-3 col-12 col-md-5"> <button type="submit" class="btn btn-primary w-100"">Registrarme</button>
+                </div>
+
+            </div> </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+    <script src="../js/registro.js"></script>
+</body>
+
+</html>
