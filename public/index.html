@@ -18,6 +18,32 @@
         </ul>
       </nav>
       <footer><p class="texto-footer">© 2023 CoderShop</p></footer>
+    
+      <div class="auth-section">
+  <div id="auth-form">
+    <h3 class="auth-title">Iniciar Sesión</h3>
+    <form id="login-form">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Contraseña" required>
+      <button type="submit" class="boton-menu">Ingresar</button>
+    </form>
+    <p class="auth-toggle">¿No tienes cuenta? <a href="#" id="show-register">Regístrate</a></p>
+  </div>
+
+  <div id="register-form" style="display: none;">
+    <h3 class="auth-title">Registro</h3>
+    <form id="register-form">
+      <input type="text" placeholder="DNI" required>
+      <input type="text" placeholder="Nombre" required>
+      <input type="text" placeholder="Apellido" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Contraseña" required>
+      <button type="submit" class="boton-menu">Registrarse</button>
+    </form>
+    <p class="auth-toggle">¿Ya tienes cuenta? <a href="#" id="show-login">Iniciar Sesión</a></p>
+  </div>
+</div>
+    
     </aside>
 
     <main>
@@ -26,7 +52,7 @@
 
     </main>
   </div>
-
+  <script src="/js/auth.js"></script>
   <script src="js/main.js"></script>
   <script src="js/data-controller.js"></script>
 </body>
