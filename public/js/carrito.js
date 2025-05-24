@@ -6,7 +6,6 @@ const carritoVacioMsg     = document.querySelector(".carrito-vacio");
 const contenedorProductos = document.querySelector(".carrito-productos");
 const accionesCarrito     = document.querySelector(".carrito-acciones");
 const btnVaciar           = document.querySelector(".carrito-acciones-vaciar");
-const btnComprar          = document.querySelector(".carrito-acciones-comprar");
 const totalDisplay        = document.getElementById("total");
 const totalProductos = document.getElementById("total-productos");
 
@@ -15,6 +14,7 @@ function actualizarTotal() {
   const totalCantidad = productosEnCarrito.reduce((sum, p) => sum + p.cantidad, 0);
   totalProductos.textContent = totalCantidad;
   totalDisplay.textContent = `$${total}`;
+  return total;
 
 }
 
@@ -81,17 +81,37 @@ document.querySelectorAll(".carrito-producto-eliminar").forEach(btn => {
 }
 
 
+function registrarCompra() {
+  const total = actualizarTotal();
+  const carrito = JSON.parse(localStorage.getItem("carrito"))
+  console.log(JSON.stringify({carrito, total}))
+  fetch('/ventas', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({carrito, total})
+  })
+  .then(res => res.text())
+  .then(msg => {
+    alert(msg);
+    localStorage.removeItem('carrito');
+    alert("Compra registrada")
+    window.location.href = '/'
+  })
+  .catch(err => alert("Error al realizar la compra"))
+}
 
 btnVaciar.addEventListener("click", () => {
   productosEnCarrito = [];
   guardarCarrito();
 });
 
+/*
 btnComprar.addEventListener("click", () => {
   alert("¡Gracias por tu compra!");
   productosEnCarrito = [];
   guardarCarrito();
 });
+*/
 
 document.addEventListener("DOMContentLoaded", renderCarrito);
 actualizarTotal();
