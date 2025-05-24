@@ -275,3 +275,45 @@ main{
 .disabled{
     display: none;
 }
+
+/* Auth Section */
+.auth-section {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 0.5rem;
+}
+
+.auth-title {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: var(--blanco);
+}
+
+.auth-section input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+}
+
+.auth-toggle {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--gris);
+}
+
+.auth-toggle a {
+  color: var(--blanco);
+  text-decoration: underline;
+}
+
+.user-info {
+  color: var(--blanco);
+  text-align: center;
+}
+
+.user-info p {
+  margin-bottom: 0.5rem;
+}
