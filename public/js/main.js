@@ -25,6 +25,7 @@ function agregarAlCarrito(e) {
 
   if (existente) existente.cantidad++;
   else productosEnCarrito.push({ ...prod, cantidad: 1 });
+  alert("Producto agregado");
 
   guardarCarrito();
 }
@@ -54,13 +55,13 @@ function cargarProductos(lista) {
     const div = document.createElement("div");
     div.className = "producto";
     div.innerHTML = `
-    <a href="/pages/producto.html?id=${item.slug}">  
+    <a href="/pages/producto.html?slug=${item.slug}">  
       <img class="producto-imagen" onerror="this.onerror=null; this.src='img/404.png';" src="${item.imagen}" alt="${item.titulo}">
       <div class="producto-detalles">
         <h3 class="producto-titulo">${item.titulo}</h3>
         <p class="producto-precio">$${item.precio}</p>
       </a>
-        <button class="producto-agregar" id="${item.slug}">Agregar</button>
+        <button class="producto-agregar" id="${item.slug}" ${(item.stock == 0) ? 'disabled' : ""}> ${(item.stock != 0) ? "Agregar" : "Sin Stock"}</button>
       </div>
     `;
     contenedorProductos.append(div);
