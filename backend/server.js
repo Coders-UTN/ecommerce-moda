@@ -2,45 +2,49 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
-const cors = require('cors'); 
+const cors = require('cors');
+const jwt = require('jsonwebtoken')
+
 const app = express();
 
-app.use(cors()); 
-app.use(express.json()); 
+const CLAVE_SEGURA = 'mi_clave_secreta_segura'
+
+app.use(cors());
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, '../public', 'index.html'));
+    res.sendFile(path.join(__dirname, '../public', 'index.html'));
 });
 
 let pool;
 async function conectarDB() {
-  try {
-    pool = mysql.createPool({
-      host: 'db',
-      user: 'root',
-      password: 'root',
-      database: 'ecommerce_db'
-    }).promise();
-    console.log('✅ Conectado a MySQL');
+    try {
+        pool = mysql.createPool({
+            host: 'db',
+            user: 'root',
+            password: 'root',
+            database: 'ecommerce_db'
+        }).promise();
+        console.log('✅ Conectado a MySQL');
 
-  } catch (error) {
-    console.log('Error al conectar a la base de datos:', error);
-    process.exit(1);
-  }
+    } catch (error) {
+        console.log('Error al conectar a la base de datos:', error);
+        process.exit(1);
+    }
 }
 conectarDB();
 
 
 app.get('/productos', async (req, res) => { // <-- La función de ruta debe ser 'async'
-  try {
-    const [rows, fields] = await pool.query('SELECT * FROM producto'); // <-- Usar 'await'
-    res.json(rows); // 'rows' contendrá los resultados
-  } catch (err) {
-    console.error('Error al obtener productos:', err);
-    res.status(500).send('Error al obtener productos');
-  }
+    try {
+        const [rows, fields] = await pool.query('SELECT * FROM producto'); // <-- Usar 'await'
+        res.json(rows); // 'rows' contendrá los resultados
+    } catch (err) {
+        console.error('Error al obtener productos:', err);
+        res.status(500).send('Error al obtener productos');
+    }
 });
 
 // Haz lo mismo para app.get('/categorias')
@@ -78,15 +82,15 @@ app.get('/usuarios', async (req, res) => { // <-- Cambiado a async
     }
 });
 
-app.post('/ventas', async (req, res) => { // <-- La función de ruta debe ser 'async'
-    const { carrito, total } = req.body;
+app.post('/ventas', authenticateToken, async (req, res) => { // <-- La función de ruta debe ser 'async'
+    const { carrito, total , id_cliente} = req.body;
     if (!Array.isArray(carrito) || carrito.length === 0) {
         return res.status(400).send("Carrito vacio");
     }
 
     try {
         const fecha = new Date();
-        const [compraResult] = await pool.query('INSERT INTO compra (id_cliente, fecha, total) VALUES (?, ?, ?)', [1, fecha, total]);
+        const [compraResult] = await pool.query('INSERT INTO compra (id_cliente, fecha, total) VALUES (?, ?, ?)', [id_cliente, fecha, total]);
 
         const id_venta = compraResult.insertId;
         const detalles = carrito.map(p => [id_venta, p.id_producto, p.cantidad, p.precio]);
@@ -130,7 +134,7 @@ app.post('/usuarios', async (req, res) => { // <-- La función de ruta debe ser 
     } catch (err) {
         console.error('Error al registrar usuario/cliente:', err);
         if (err.code === 'ER_DUP_ENTRY') {
-             return res.status(409).send("El DNI o nombre de usuario ya existen.");
+            return res.status(409).send("El DNI o nombre de usuario ya existen.");
         }
         res.status(500).send("Error al registrar el usuario. Intente de nuevo.");
     }
@@ -139,34 +143,68 @@ app.post('/usuarios', async (req, res) => { // <-- La función de ruta debe ser 
 app.post('/login', async (req, res) => {
     const { usuario, password } = req.body;
 
+    // Validación inicial: Asegurarse de que los datos no estén vacíos
+    if (!usuario || !password) {
+        return res.status(400).json({ error: "Falta nombre de usuario o contraseña." });
+    }
+
     try {
         const [rows] = await pool.query(
-            'SELECT * FROM usuario WHERE username = ?',
+            // Asegúrate de seleccionar id_cliente si lo necesitas para el JWT
+            'SELECT id_usuario, id_cliente, username, hashpass FROM usuario WHERE username = ?',
             [usuario]
         );
 
         if (rows.length === 0) {
-            return res.status(401).json({mensaje: "Usuario o contraseña incorrectos"});
+            // Usuario no encontrado
+            return res.status(401).json({ error: "Usuario o contraseña incorrectos" }); // Mensaje genérico
         }
 
         const usuarioBD = rows[0];
-        const contraseñaCorrecta = await bcrypt.compare(password, usuarioBD.hashpass);
+        // 2. Comparar la contraseña proporcionada con la contraseña hasheada
+        const contraseniaCorrecta = await bcrypt.compare(password, usuarioBD.hashpass);
 
-        if (!contraseñaCorrecta) {
-            return res.status(401).json({error: "Usuario o contraseña incorrectos"});
+        if (contraseniaCorrecta) {
+            // Contraseña coincide: Inicio de sesión exitoso
+            const token = jwt.sign(
+                { id_usuario: usuarioBD.id_usuario, id_cliente: usuarioBD.id_cliente, username: usuarioBD.username },
+                CLAVE_SEGURA,
+                { expiresIn: '1h' }
+            );
+            // Envía la respuesta exitosa con el token y el id_cliente
+            res.status(200).json({ message: 'Inicio de sesión exitoso.', token: token, id_cliente: usuarioBD.id_cliente, username: usuarioBD.username });
+        } else {
+            // Contraseña no coincide
+            return res.status(401).json({ error: "Usuario o contraseña incorrectos" }); // Mensaje genérico
         }
 
-        // Si querés guardar algo como sesión o token, hacelo acá
-
-        res.status(200).json({mensaje:"Login exitoso"});
     } catch (err) {
         console.error('Error al hacer login:', err);
-        res.status(500).json({error: "Error al ingresar. Intente de nuevo."});
+        res.status(500).json({ error: "Error al ingresar. Intente de nuevo." });
     }
 });
+
+function authenticateToken(req, res, next) {
+    // El token se envía típicamente en la cabecera 'Authorization' como 'Bearer <token>'
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1]; // Obtiene el token después de 'Bearer '
+
+    if (token == null) {
+        return res.status(401).send('Acceso denegado. No se proporcionó token.');
+    }
+
+    jwt.verify(token, CLAVE_SEGURA, (err, user) => {
+        if (err) {
+            // Token inválido o expirado
+            return res.status(403).send('Token inválido o expirado.');
+        }
+        req.user = user; // Guarda los datos del usuario (id_usuario, id_cliente, username) en el objeto req
+        next(); // Continúa con la siguiente función de middleware o la ruta
+    });
+}
 
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });

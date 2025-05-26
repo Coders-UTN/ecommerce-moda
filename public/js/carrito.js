@@ -2,11 +2,11 @@
 
 let productosEnCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-const carritoVacioMsg     = document.querySelector(".carrito-vacio");
+const carritoVacioMsg = document.querySelector(".carrito-vacio");
 const contenedorProductos = document.querySelector(".carrito-productos");
-const accionesCarrito     = document.querySelector(".carrito-acciones");
-const btnVaciar           = document.querySelector(".carrito-acciones-vaciar");
-const totalDisplay        = document.getElementById("total");
+const accionesCarrito = document.querySelector(".carrito-acciones");
+const btnVaciar = document.querySelector(".carrito-acciones-vaciar");
+const totalDisplay = document.getElementById("total");
 const totalProductos = document.getElementById("total-productos");
 
 function actualizarTotal() {
@@ -59,7 +59,7 @@ function renderCarrito() {
     contenedorProductos.append(div);
   });
 
-document.querySelectorAll(".carrito-producto-eliminar").forEach(btn => {
+  document.querySelectorAll(".carrito-producto-eliminar").forEach(btn => {
     btn.addEventListener("click", e => {
       const id = e.currentTarget.dataset.id;
       const producto = productosEnCarrito.find(p => p.slug === id);
@@ -82,22 +82,33 @@ document.querySelectorAll(".carrito-producto-eliminar").forEach(btn => {
 
 
 function registrarCompra() {
-  const total = actualizarTotal();
-  const carrito = JSON.parse(localStorage.getItem("carrito"))
-  console.log(JSON.stringify({carrito, total}))
-  fetch('/ventas', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({carrito, total})
-  })
-  .then(res => res.text())
-  .then(msg => {
-    alert(msg);
-    localStorage.removeItem('carrito');
-    alert("Compra registrada")
-    window.location.href = '/'
-  })
-  .catch(err => alert("Error al realizar la compra"))
+  const authToken = localStorage.getItem('authToken');
+  if (authToken) {
+    const total = actualizarTotal();
+    const carrito = JSON.parse(localStorage.getItem("carrito"));
+    const id_cliente = parseInt(localStorage.getItem('id_cliente'));
+    console.log(JSON.stringify({ carrito, total, id_cliente }))
+    fetch('/ventas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authToken}`
+      },
+      body: JSON.stringify({ carrito, total, id_cliente })
+    })
+      .then(res => res.text())
+      .then(msg => {
+        alert(msg);
+        localStorage.removeItem('carrito');
+        alert("Compra registrada")
+        window.location.href = '/'
+      })
+      .catch(err => alert("Error al realizar la compra", err))
+  } else {
+    setTimeout(() => {
+      window.location.href = '/pages/login.html';
+    }, 1500);
+  }
 }
 
 btnVaciar.addEventListener("click", () => {
@@ -117,5 +128,5 @@ document.addEventListener("DOMContentLoaded", renderCarrito);
 actualizarTotal();
 
 function procesarCompra() {
-  
+
 }

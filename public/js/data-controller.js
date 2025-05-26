@@ -35,10 +35,6 @@ function cargarCategorias() {
   listaCategorias.appendChild(carrito)
     funcionBotonesCategoria();
     actualizarCantidad();
-
-  const bototonRegistro = document.createElement("li");
-  bototonRegistro.innerHTML = '<a class="boton-menu" href="/pages/login.html"><i class="bi bi-person-fill"></i>Login</a>';
-  listaCategorias.appendChild(bototonRegistro);
   }
   
   cargarCategorias();

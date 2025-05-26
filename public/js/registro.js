@@ -37,6 +37,9 @@ async function registrarUsuario() {
         // Algunas APIs devuelven texto, otras JSON. Ajusta según lo que tu backend envíe.
         const msg = await resRegister.text(); // O .json() si tu backend devuelve JSON
         alert(msg);
+        setTimeout(() => {
+        window.location.href = '/pages/login.html'; // Redirige a la página principal
+      }, 1500);
 
         // Si el registro fue exitoso y quieres redirigir:
         // window.location.href = '/pages/login.html';

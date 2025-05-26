@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Carrito – CoderShop</title>
-  <link rel="stylesheet" href="/css/main.css"/>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="/css/main.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
   <link rel="icon" href="../favicon.png" type="image/x-icon">
 </head>
+
 <body>
   <div class="wrappel">
     <aside>
-      <header><a href="/"><h1 class="logo">CoderShop</h1></header></a>
+      <header><a href="/">
+          <h1 class="logo">CoderShop</h1>
+      </header></a>
       <nav>
         <ul>
           <li>
@@ -27,7 +31,9 @@
           </li>
         </ul>
       </nav>
-      <footer><p class="texto-footer">© 2023 CoderShop</p></footer>
+      <footer>
+        <p class="texto-footer">© 2023 CoderShop</p>
+      </footer>
     </aside>
 
     <main>
@@ -41,7 +47,8 @@
           </div>
           <div class="carrito-acciones-derecha">
             <div class="carrito-acciones-total">
-              <p>Total:</p><p id="total">$0</p>
+              <p>Total:</p>
+              <p id="total">$0</p>
             </div>
             <button class="carrito-acciones-comprar" onclick="registrarCompra()">Comprar!</button>
           </div>
@@ -52,4 +59,5 @@
 
   <script src="/js/carrito.js"></script>
 </body>
+
 </html>
