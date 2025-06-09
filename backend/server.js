@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const mysql = require('mysql2');
 const cors = require('cors');
 const jwt = require('jsonwebtoken')
-
 const app = express();
 
 const CLAVE_SEGURA = 'mi_clave_secreta_segura'
@@ -12,6 +11,7 @@ const CLAVE_SEGURA = 'mi_clave_secreta_segura'
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.json()); // Para parsear JSON
 
 
 app.get("/", (req, res) => {
