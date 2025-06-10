@@ -6,7 +6,7 @@ Este proyecto es una tienda en línea construida con Node.js (Express), MySQL y 
 # Proyecto Final de Programación 2
 
 
-### Profesora: Cinthia Rigoni
+### Profesora: David Roco
 
 ### Integrantes:
 
