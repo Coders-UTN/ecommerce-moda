@@ -35,7 +35,6 @@ function cargarCategorias() {
   listaCategorias.appendChild(carrito)
     funcionBotonesCategoria();
     actualizarCantidad();
-    
   }
   
   cargarCategorias();

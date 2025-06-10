@@ -33,6 +33,7 @@ CREATE TABLE compra (
   id_compra INTEGER PRIMARY KEY AUTO_INCREMENT,
   id_cliente INTEGER,
   fecha DATETIME,
+  total INTEGER,
   FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente)
 );
 

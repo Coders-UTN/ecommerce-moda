@@ -2,7 +2,7 @@ let productosEnCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let productos;
 let producto;
 const params = new URLSearchParams(window.location.search);
-const idProducto = params.get("id");
+const slugProducto = params.get("slug");
 const contenedor = document.getElementById("detalle-producto");
 
 function guardarCarrito() {
@@ -23,12 +23,13 @@ function agregarDesdeDetalle(e) {
   alert("Producto agregado al carrito");
 }
 
-fetch("/productos")
-  .then((res) => res.json())
+fetch(`/productos/${slugProducto}`)
+  .then((res) => {
+    if (!res.ok) throw new Error("Producto no encontrado") 
+      return res.json();
+    })
   .then((data) => {
-    productos = data;
-    producto = productos.find((p) => p.slug === idProducto);
-
+    producto = data;
     if (producto) {
       const sinStock = producto.stock == 0;
 
@@ -68,6 +69,6 @@ fetch("/productos")
     }
   })
   .catch((error) => {
-    console.error("Error al cargar los productos:", error);
+    console.error("Error al cargar el producto:", error);
     contenedor.innerHTML = `<p class="lead">Error al cargar los productos</p>`;
   });
