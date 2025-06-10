@@ -2,6 +2,20 @@
 
 Este proyecto es una tienda en línea construida con Node.js (Express), MySQL y Docker. Aquí podrás gestionar productos, categorías y un carrito de compras.
 
+
+# Proyecto Final de Programación 2
+
+
+### Profesora: Cinthia Rigoni
+
+### Integrantes:
+
+* Aciar, Agustín
+* Flores, Leandro
+* Ramírez, Rodrigo
+* Vera, Santiago
+
+
 ## Requisitos
 
 Para ejecutar este proyecto, asegúrate de tener las siguientes herramientas instaladas:
